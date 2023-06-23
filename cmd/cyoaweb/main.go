@@ -4,6 +4,7 @@ import (
 	"cyoa"
 	"flag"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -25,7 +26,8 @@ func main() {
 		panic(err)
 	}
 
-	h := cyoa.NewHandler(story, nil)
+	tpl := template.Must(template.New("").Parse("Hello workld!"))
+	h := cyoa.NewHandler(story, cyoa.WithTemplate(tpl))
 	fmt.Printf("Starting server on port %d\n", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), h))
 }
